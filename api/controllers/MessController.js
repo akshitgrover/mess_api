@@ -22,14 +22,14 @@ module.exports = {
 					data.day=[];
 					data.day.push(array);
 					data.save();
-					return;
+					return res.json({mess:data});
 				});
 			}
 			else{
 				console.log(data);
 				data.day.push(array);
 				data.save();
-				return;
+				return res.json({mess:data});
 			}
 		});
 	},
