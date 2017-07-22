@@ -10,7 +10,8 @@ module.exports = {
   attributes: {
   	regno:{
   		type:'string',
-  		required:true
+  		required:true,
+      unique:true
   	},
   	mess:{
   		type:'string',
