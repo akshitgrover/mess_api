@@ -110,7 +110,7 @@ module.exports = {
 			if(err){
 				return res.json(501,{err:"Something Went Wrong!"});
 			}
-			var encr=req.param('meal')+req.param('day');
+			var encr=req.param('meal')+'.'+req.param('day');
 			if(data.favdish){
 				data.favdish.push(encr);
 				data.save();
@@ -136,8 +136,12 @@ module.exports = {
 				var encr=[];
 				var fav=data.favdish;
 				var i;
+				var sep;
 				for(i=0;i<fav.length;i++){
-					encr.push(mess.day[parseInt(fav[i][1])][parseInt(fav[i][0])]);
+					sep=fav[i].indexOf('.');
+					var one=fav[i].substring(0,sep);
+					var two=fav[i].substring(sep+1,fav[i].length);
+					encr.push(mess.day[parseInt(two)][parseInt(one)]);
 				};
 				return res.json(200,{dish:encr,token:req.param('token')});
 			});
@@ -148,7 +152,7 @@ module.exports = {
 			if(err){
 				return res.json(501,{err:"Something Went Wrong!"});
 			}
-			var ind=data.favdish.indexOf(req.param('meal')+req.param('day'));
+			var ind=data.favdish.indexOf(req.param('meal')+'.'+req.param('day'));
 			data.favdish.splice(ind,1);
 			data.save();
 			console.log(data.favdish);
