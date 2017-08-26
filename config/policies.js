@@ -31,7 +31,10 @@ module.exports.policies = {
     'chngmess':['tokenAuth'],
     'findalluser':['sessionAuth','adminAuth'],
     'adminpanel':['sessionAuth','adminAuth'],
-    'delete':['sessionAuth','adminAuth']
+    'delete':['sessionAuth','adminAuth'],
+    'delfavdish':['tokenAuth'],
+    'addfavdish':['tokenAuth'],
+    'getfavdish':['tokenAuth']
   },
   Mess:{
     'create':['sessionAuth','adminAuth'],

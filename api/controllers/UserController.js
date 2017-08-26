@@ -49,8 +49,8 @@ module.exports = {
 				});
 				Mess.find(function(err,mess){
 					mess.forEach(function(err,mess_one){
-						delete mess.menu;
-						array.push(mess);
+						delete mess_one.menu;
+						array.push(mess_one);
 					});
 					return res.json({err:"Couldn't Find Record!",user:req.session.user,mess:array,token:jwt.issue({id:user.id})});
 				});
@@ -63,6 +63,7 @@ module.exports = {
 				return res.json(501,{err:"Soemthing went wrong!",token:req.param('token')});
 			}
 			data.mess=req.param('code');
+			data.favdish=[];
 			data.save();
 			return res.json(200,{flash:'Default Mess Added successfully!',token:req.param('token')});
 		});
@@ -100,8 +101,58 @@ module.exports = {
 		});
 	},
 	adminpanel:function(req,res){
-		Mes.find(function(err,data){
+		Mess.find(function(err,data){
 			return res.view({mess:data});
+		});
+	},
+	addfavdish:function(req,res){
+		User.findOne({regno:req.param('regno')},function(err,data){
+			if(err){
+				return res.json(501,{err:"Something Went Wrong!"});
+			}
+			var encr=req.param('meal')+req.param('day');
+			if(data.favdish){
+				data.favdish.push(encr);
+				data.save();
+				return res.json(200,{flash:"Favorite Dish Added Successfully!"});
+			}
+			else{
+				data.favdish=[];
+				data.favdish.push(encr);
+				data.save();
+				return res.json(200,{flash:"Favorite Dish Added Successfully!",token:req.param('token')});
+			}
+		});
+	},
+	getfavdish:function(req,res){
+		User.findOne({regno:req.param('regno')},function(err,data){
+			if(err){
+				return res.json(501,{err:"Something Went Wrong!"});
+			}
+			if(!data.favdish){
+				return res.json(404,{err:"No Favourite Dish Found!"});
+			}
+			Mess.findOne({code:data.mess},function(err,mess){
+				var encr=[];
+				var fav=data.favdish;
+				var i;
+				for(i=0;i<fav.length;i++){
+					encr.push(mess.day[parseInt(fav[i][1])][parseInt(fav[i][0])]);
+				};
+				return res.json(200,{dish:encr,token:req.param('token')});
+			});
+		});
+	},
+	delfavdish:function(req,res){
+		User.findOne({regno:req.param('regno')},function(err,data){
+			if(err){
+				return res.json(501,{err:"Something Went Wrong!"});
+			}
+			var ind=data.favdish.indexOf(req.param('meal')+req.param('day'));
+			data.favdish.splice(ind,1);
+			data.save();
+			console.log(data.favdish);
+			return res.json(200,{flash:"Delete Successfully!",token:req.param('token')});
 		});
 	}
 };

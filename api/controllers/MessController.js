@@ -92,7 +92,7 @@ module.exports = {
 	},
 	destroyday:function(req,res){
 		Mess.findOne({code:req.param('code')},function(err,data){
-			data.day.splie(req.param('day')-1,1);
+			data.day.splice(req.param('day')-1,1);
 			data.save();
 			return;
 		});
@@ -121,5 +121,4 @@ module.exports = {
 			return res.view({mess:data});
 		});
 	}
-
 };

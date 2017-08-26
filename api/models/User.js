@@ -19,7 +19,11 @@ module.exports = {
   	admin:{
   		type:'boolean',
   		defaultsTo:false
-  	}
+  	},
+    favdish:{
+      type:'array',
+      defaultsTo:[]
+    }
   }
 };
 
