@@ -58,7 +58,7 @@ module.exports.connections = {
   ***************************************************************************/
   MongoDb: {
     adapter: 'sails-mongo',
-    url:'mongodb://Deathadder:Deathadder_11@ds061298.mlab.com:61298/mess_api'
+    url:'mongodb://Deathadder:Deathadder***@ds061298.mlab.com:61298/mess_api'
   },
 
   /***************************************************************************
